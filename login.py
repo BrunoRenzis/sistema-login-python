@@ -13,15 +13,15 @@ def strongpwrd(password, ints_list, upper_list):
     splitpass(password)
 
     if len(password) < 8:
-        print("Erro: Sua senha deve conter no mínimo 8 digitos.")
+        print(f"{Fore.RED}Erro: Sua senha deve conter no mínimo 8 digitos.{Style.RESET_ALL}")
         return False
     
     elif len(ints_list) < 1:
-        print("Erro: Sua senha deve conter no mínimo 1 número.")
+        print(f"{Fore.RED}Erro: Sua senha deve conter no mínimo 1 número.{Style.RESET_ALL}")
         return False
 
     elif len(upper_list) < 1:
-        print("Erro: Sua senha deve conter no mínimo 1 letra maíuscula.")
+        print(f"{Fore.RED}Erro: Sua senha deve conter no mínimo 1 letra maíuscula.{Style.RESET_ALL}")
         return False
     
     else:
@@ -30,9 +30,14 @@ def strongpwrd(password, ints_list, upper_list):
 
 def cadastro():
     os.system('cls')
+
+    print(f"{Fore.CYAN}{'='*40}")
+    print(f"{Fore.CYAN}           CADASTRO DE USUÁRIO")
+    print(f"{Fore.CYAN}{'='*40}\n")
+
     try:
-        with open("data.json", "r") as archieve:
-            data = json.load(archieve)
+        with open("data.json", "r") as archive:
+            data = json.load(archive)
     except FileNotFoundError:
         data = {"users": []}
 
@@ -44,8 +49,8 @@ def cadastro():
 
         for usuario in data["users"]:
             if usuario["user"] == user:
-                print("Usuário já existe!")
-                input("Pressione ENTER para continuar...")
+                print(f"{Fore.RED}Usuário já existe!{Style.RESET_ALL}")
+                input(f"\n{Fore.YELLOW}Pressione ENTER para continuar...{Style.RESET_ALL}")
                 return
 
         new_user = {
@@ -58,48 +63,57 @@ def cadastro():
         with open("data.json", "w") as f:
             json.dump(data, f, indent=2)
 
-        print("Cadastrado com sucesso!")
-        input("Pressione ENTER para continuar...")
+        print(f"{Fore.GREEN}Cadastrado com sucesso!{Style.RESET_ALL}")
+        input(f"\n{Fore.YELLOW}Pressione ENTER para continuar...{Style.RESET_ALL}")
     else:
-        input("Pressione ENTER para continuar...")
+        input(f"\n{Fore.YELLOW}Pressione ENTER para continuar...{Style.RESET_ALL}")
 
 def login():
-    os.system('cls')
+    os.system('cls' if os.name == 'nt' else 'clear')
 
-    print("Sign-in\n")
+    print(f"{Fore.CYAN}{'='*40}")
+    print(f"{Fore.CYAN}              LOGIN")
+    print(f"{Fore.CYAN}{'='*40}\n")
+
     try:
         with open("data.json", "r") as loginfile:
             datalogin = json.load(loginfile)
     except FileNotFoundError:
-        print("Arquivo de cadastros (data.json) não encontrado!")
-        input("Pressione ENTER para continuar...")
+        print(f"{Fore.RED}Arquivo de cadastros (data.json) não encontrado!{Style.RESET_ALL}")
+        input(f"\n{Fore.YELLOW}Pressione ENTER para continuar...{Style.RESET_ALL}")
         return
     
-    user = input("user: ")
-    password = input("Password: ")
+    user = input(f"{Fore.YELLOW}user: {Style.RESET_ALL}")
+    password = input(f"{Fore.YELLOW}Password: {Style.RESET_ALL}")
 
     encontrou = False
 
     for usuario in datalogin["users"]:
         if usuario["user"] == user and usuario["password"] == password:
             encontrou = True
-            print("Você está logado!")
-            input("Pressione ENTER para continuar...")
+            print(f"\n{Fore.GREEN}Você está logado!{Style.RESET_ALL}")
+            print(f"{Fore.GREEN}Bem-vindo, {user}!{Style.RESET_ALL}")
+            input(f"\n{Fore.YELLOW}Pressione ENTER para continuar...{Style.RESET_ALL}")
             break
 
     if not encontrou:
-        print("Usuário não encontrado, cadastre-se primeiro.")
-        input("Pressione ENTER para continuar...")
+        print(f"\n{Fore.RED}Usuário não encontrado, cadastre-se primeiro.{Style.RESET_ALL}")
+        input(f"\n{Fore.YELLOW}Pressione ENTER para continuar...{Style.RESET_ALL}")
 
 
 
 while True:
-    os.system('cls')
-    print("MENU DE ESCOLHAS\n")
-    print("1. Cadastrar")
-    print("2. Login")
-    print("3. Sair")
-    opcao = input("Escolha: ")
+    os.system('cls' if os.name == 'nt' else 'clear')
+    
+    print(f"{Fore.MAGENTA}{'='*40}")
+    print(f"{Fore.MAGENTA}          SISTEMA DE LOGIN")
+    print(f"{Fore.MAGENTA}{'='*40}\n")
+    
+    print(f"{Fore.CYAN}1.{Style.RESET_ALL} Cadastrar")
+    print(f"{Fore.CYAN}2.{Style.RESET_ALL} Login")
+    print(f"{Fore.CYAN}3.{Style.RESET_ALL} Sair")
+    
+    opcao = input(f"\n{Fore.YELLOW}Escolha uma opção: {Style.RESET_ALL}")
 
     if opcao == "1":
         cadastro()
@@ -107,5 +121,10 @@ while True:
     if opcao == "2":
         login()
 
-    if opcao == "3":
+    elif opcao == "3":
+        print(f"\n{Fore.GREEN}👋 Até logo!{Style.RESET_ALL}")
         break
+
+    else:
+        print(f"\n{Fore.RED}Opção inválida!{Style.RESET_ALL}")
+        input(f"{Fore.YELLOW}Pressione ENTER para continuar...{Style.RESET_ALL}")
